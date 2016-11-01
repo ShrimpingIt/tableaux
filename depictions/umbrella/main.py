@@ -53,23 +53,43 @@ sequences = [
 
 positions = [-1 for entry in sequences]
 
-sheltered = [
+under = [
 	3, 15, 
 	4, 14, 12,
 	5, 13, 11,
 	6, 10
 ]
 
-def run():
-	
-	umbrella = False
+#sheltered = under
+sheltered = []
+
+d0 = Pin(16, Pin.OUT)
+d1 = Pin(5, Pin.OUT)
+
+d0.high()
+d1.high()
+
+
+'''
+d1 = Pin(5, Pin.OUT)
+pwm1 = PWM(d1)
+pwm1.freq(1000)
+pwm1.duty(256)
+ramp = range(0,1024, 8)
+while True:
+	for duty in ramp:
+		pwm1.duty(duty)
+		sleep(0.05)
+	for duty in reversed(ramp):
+		pwm1.duty(duty)
+		sleep(0.05)
+'''
+
+def run():	
 	
 	while True:
-		blank()
-		
-		if rand_int(30) == 0:
-			umbrella = not umbrella
-		
+		blank()				
+	
 		for index, sequence in enumerate(sequences):
 			# retrieve activity for this drop
 			position = positions[index]
@@ -82,7 +102,7 @@ def run():
 				position = position + 1 # previously active drops fall one more step
 				if position == len(sequence): # drops falling off the bottom become inactive
 					position = -1
-				elif umbrella and (sequence[position] in sheltered): # drops going into sheltered area become inactive
+				elif sequence[position] in sheltered: # drops going into sheltered area become inactive
 					position = -1
 					
 			# light any active lights
