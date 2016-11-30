@@ -3,7 +3,6 @@ from machine import Pin
 from os import urandom
 from math import floor
 
-
 pinMap = (16, 5, 4, 0, 2, 14, 12, 13, 15, 3)
 outputs = [Pin(gpio, Pin.OUT) for gpio in pinMap[:8]]
 
@@ -47,9 +46,33 @@ def flashAll(delay=1):
 	sleep(delay)
 	allOff()		
 	sleep(delay)
+	
+body = outputs[4]
+trunkUp = outputs[2]
+trunkDown = outputs[5]
+water = outputs[1]
+eye = outputs[3]
 
 def run():
+	allOff()
 	while True:
-		flashAll()
+		body.high()
+		eye.high()
+		trunkDown.high()
+		for step in range(32):
+			if(rand_int(16) == 0):
+				eye.low()
+				sleep(0.2)
+				eye.high()
+			else:
+				sleep(0.2)
+		trunkDown.low()
+		trunkUp.high()
+		sleep(0.5)
+		water.high()
+		sleep(2)
+		water.low()
+		trunkUp.low()
+		trunkDown.high()
 
 run()
