@@ -114,15 +114,17 @@ body=[3]
 leaf=[6]
 antennae=[7]
 
-def sequence():
-	pass
+def illuminate():
+	turnOff(range(8))
+	turnOn(body)
+	sleep(2)
+	turnOn(antennae)
+	sleep(1)
+	turnOn(rightWing + leftWing + purpleLeft)
+	sleep(8)
 
 def animate():
     while True:
-        sequence()
+        illuminate()
 
-
-def illuminate():
-    turnOn(range(numLights))
-
-illuminate()
+animate()

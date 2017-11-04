@@ -1,10 +1,11 @@
 # turbosnail suffix '0fae49'
 from ws2811 import *
 from time import sleep
-num=24
-startPixels(num=num)
+from cockle import randint
+num=25
+startPixels(num=num, order=RGB)
 
-def turnOn(lights, color=red, show=True):
+def turnOn(lights, color=blue, show=True):
 	for light in lights:
 		setPixel(light, color, show=False)
 	if show:
@@ -38,12 +39,16 @@ spiral = [
 	0,
 ]
 
-tail = [21, 22, 23]
-behind = [20]
+tail = [22, 23, 24]
+behind = [21]
 
+spiralPos = 0
 while True:
-	for item in range(len(spiral)):
-		turnOff(spiral, show=False)
-		pos = spiral[item]
-		turnOn([pos])
-		sleep(0.02)
+	turnOff(spiral, show=False)
+	light = spiral[spiralPos]
+	turnOn([light])
+	for light in tail:
+		setPixel(light, [int(brightness * randint(255) / 255) for brightness in orange])
+	spiralPos += 1
+	if spiralPos >= len(spiral):
+		spiralPos = 0
